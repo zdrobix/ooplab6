@@ -14,4 +14,5 @@ add_executable(oop_lab6
         domain.cpp
         domain.h
         tests.cpp
-        tests.h)
+        tests.h
+)
