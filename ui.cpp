@@ -140,7 +140,7 @@ void Ui::uiFilter () {
     }
     cout << endl << "Filtering the products, please select the criteria: ";
 
-    cout << "\n\n1. Price\n2. Name\n3. Return to menu\n";
+    cout << "\n\n1. Price\n2. Name\n3. Producer\n4. Return to menu\n";
 
     string option = readOption();
 
@@ -162,9 +162,15 @@ void Ui::uiFilter () {
 
     } else if (option == "2") {
 
-        cout << "\n1. Name\n2. Producer\n";
+        char letter;
 
-        string option2 = readOption();
+        cout << "\nEnter a letter: ";
+
+        cin >> letter;
+
+        counter = service.filterName(0, pos, letter, true);
+
+    } else if (option == "3") {
 
         char letter;
 
@@ -172,9 +178,9 @@ void Ui::uiFilter () {
 
         cin >> letter;
 
-        counter = service.filterName(0, pos, letter, option2 == "1");
+        counter = service.filterName(0, pos, letter, false);
 
-    } else if (option == "3")
+    }else if (option == "4")
 
         return;
 
@@ -217,7 +223,7 @@ void Ui::uiSort () {
 
     cout << "Select the criteria for the sort: \n";
 
-    cout << "1. Price\n2. Name\n3. Type\n";
+    cout << "1. Price\n2. Name\n3. Type\n4. Name & Type\n5. Return to menu\n";
 
     string option = readOption();
 
@@ -251,7 +257,23 @@ void Ui::uiSort () {
 
         cout << "\nThe sort has been completed succesfully\n";
 
-    } else if (option == "4")
+    } else if (option == "4") {
+
+        cout << "\nType:\n1. Ascending\n2. Descending\n";
+
+        string option1 = readOption();
+
+        cout << "\nName:\n1. Ascending\n2. Descending\n";
+
+        string option2 = readOption();
+
+        service.sortName(option1 == "1", false);
+
+        service.sortNamePart2(option2 == "1");
+
+        cout << "\nThe sort has been completed succesfully\n";
+
+    }else if (option == "5")
 
         return;
 

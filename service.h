@@ -84,6 +84,12 @@ public:
     void sortName(bool direction, bool nameType);
 
     /*
+     * Sorteaza produsele de acelasi tip, dupa nume.
+     * @param: direction- true: se sorteaza crescator
+     *                    false: se sorteaza descrescator
+     */
+    void sortNamePart2(bool direction);
+    /*
      * Adauga in memorie produse standard.
      */
     void addStandard();

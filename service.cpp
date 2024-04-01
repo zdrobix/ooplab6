@@ -155,6 +155,40 @@ void Controller::sortName(bool direction, bool nameType) {
     else sort(list.begin(), list.end(), compareFunctionDesc);
 }
 
+void Controller::sortNamePart2(bool direction) {
+
+    vector<Product>& list = repository.getAll();
+
+    auto compareNameAsc = [](const Product& a, const Product& b) {
+        return a.getName() < b.getName();
+    };
+
+    auto compareNameDesc = [](const Product& a, const Product& b) {
+        return a.getName() > b.getName();
+    };
+
+    auto compareFunction = direction ? compareNameAsc : compareNameDesc;
+
+    string curent_type = list.at(0).getType();
+
+    int start_index = 0;
+
+    for ( int i = 0; i < numberProducts(); i ++ ) {
+
+        if (list.at(i).getType() != curent_type) {
+
+            curent_type = list.at(i).getType();
+
+            if ( i - start_index > 1)
+
+                sort(list.begin() + start_index, list.begin() + i , compareFunction);
+
+            start_index = i;
+        }
+    }
+    sort(list.begin() + start_index, list.begin() + numberProducts()  , compareFunction);
+}
+
 void Controller::addStandard() {
 
     repository.addProduct(Product{"Ridge Cal Zin Paso Robles - 750Ml", "A Vintners Selections", "Wine", 274.66});
@@ -168,92 +202,94 @@ void Controller::addStandard() {
     repository.addProduct(Product{"Chalk Hill Eb Chard - 750Ml", "Republic National Distributing Co", "Wine", 512.63});
     repository.addProduct(Product{"Nederburg Shz - 750Ml", "Southern Glazers Wine And Spirits", "Wine", 837.70});
     repository.addProduct(Product{"Veramonte P/Noir - 750Ml", "Southern Glazers Wine And Spirits", "Wine", 447.90});
-    repository.addProduct(Product{"Hitachino Anabai - 11.2Oz", "Legends Ltd", "Beer", 996.34});
-    repository.addProduct(Product{"Long Trail Unearthed - 4/6 12.0Z Nr", "Legends Ltd", "Beer", 426.65});
-    repository.addProduct(Product{"Stillwater Gose Gone Wild - 22.0Z", "Legends Ltd", "Beer", 114.83});
-    repository.addProduct(Product{"North Coast Old Rasputin - 22.0Z", "Dops Inc", "Beer", 534.91});
-    repository.addProduct(Product{"Bear Republic Pace Car Racer - 12Oz", "Dops Inc", "Beer", 950.50});
-    repository.addProduct(Product{"Bear Republic Pace Car Racer - 12Oz", "Dops Inc", "Beer", 331.75});
-    repository.addProduct(Product{"Finest Call Lime Juice - 1L", "Republic National Distributing Co", "Non-Alcohol", 87.10});
-    repository.addProduct(Product{"Finest Call Lime Juice - 1L", "Republic National Distributing Co", "Non-Alcohol", 133.85});
-    repository.addProduct(Product{"Finest Call Lime Juice - 1L", "Republic National Distributing Co", "Non-Alcohol", 59.16});
-    repository.addProduct(Product{"Barkeep Baked Apple Org Bitters 6/Cs - 8Oz", "Bacchus Importers Ltd", "Non-Alcohol", 446.58});
-    repository.addProduct(Product{"Sutter Home Fre' Spark - 750Ml", "Republic National Distributing Co", "Non-Alcohol", 95.55});
-    repository.addProduct(Product{"Sutter Home Fre' Wh Zin - 750Ml", "Republic National Distributing Co", "Non-Alcohol", 124.79});
-    repository.addProduct(Product{"Sutter Home Fre' Wh Zin - 750Ml", "Republic National Distributing Co", "Non-Alcohol", 948.58});
-    repository.addProduct(Product{"Camille Cayran Cave De Cairanne Pas De La Beaume", "Grapes & Barley Llc", "Liquor", 772.52});
-    repository.addProduct(Product{"Camille Cayran Cave De Cairanne Pas De La Beaume", "Grapes & Barley Llc", "Liquor", 749.40});
-    repository.addProduct(Product{"Bodegas Hidalgo Fabuloso Solera Brandy - 750Ml", "Tradewinds Specialty Imports Llc", "Liquor", 454.19});
-    repository.addProduct(Product{"Zoco Pacharan Navarro Liq - 1L", "Tradewinds Specialty Imports Llc", "Liquor", 389.54});
-    repository.addProduct(Product{"Founding Spirits Gin - 750Ml", "Prestige Beverage Group Of Md Llc", "Liquor", 454.77});
-    repository.addProduct(Product{"Founding Spirits Gin - 750Ml", "Prestige Beverage Group Of Md Llc", "Liquor", 23.32});
-    repository.addProduct(Product{"Founding Spirits Rye Whisky - 750Ml", "Prestige Beverage Group Of Md Llc", "Liquor", 503.58});
-    repository.addProduct(Product{"Varan Coffee Liq - 750Ml", "Bacchus Importers Ltd", "Liquor", 114.67});
-    repository.addProduct(Product{"Guotai Baijiu Legend - 1L", "Young Won Trading Inc", "Liquor", 206.72});
-    repository.addProduct(Product{"Arak Ksarak - 750Ml", "American Fidelity Trading", "Liquor", 692.79});
-    repository.addProduct(Product{"Arak Ksarak - 750Ml", "American Fidelity Trading", "Liquor", 931.88});
-    repository.addProduct(Product{"Jam Sangria Red - 1/6 Keg", "Tap26Md Llc", "Kegs", 502.27});
-    repository.addProduct(Product{"Vino Petite Pinot Grigio - 20L", "Five Grapes Llc", "Kegs", 376.31});
-    repository.addProduct(Product{"Troegs Solid Sender Pale Ale - 1/2K", "Katcef Brothers Inc", "Kegs", 405.30});
-    repository.addProduct(Product{"Rogue 7 Hop - 1/2K", "Katcef Brothers Inc", "Kegs", 227.45});
-    repository.addProduct(Product{"Smuttynose Robust Porter - 1/2K", "Katcef Brothers Inc", "Kegs", 143.42});
-    repository.addProduct(Product{"Stelzer Fatti Schlob Export Lager - 30L", "Grapes & Barley Llc", "Kegs", 380.82});
-    repository.addProduct(Product{"Stelzer Fatti Schlob Export Lager - 30L", "Grapes & Barley Llc", "Kegs", 710.48});
-    repository.addProduct(Product{"Dc Brau Pils - 1/6K", "Dc Brau Brewing Llc", "Kegs", 749.42});
-    repository.addProduct(Product{"Dc Brau Pils - 1/6K", "Dc Brau Brewing Llc", "Kegs", 222.64});
-    repository.addProduct(Product{"Atlas Dance Of Days - 1/2K", "Atlas Brew Works Llc", "Kegs", 958.98});
-    repository.addProduct(Product{"Atlas Dance Of Days - 1/2K", "Atlas Brew Works Llc", "Kegs", 436.18});
-    repository.addProduct(Product{"Ballast Point Bonito - 4/6 12.Oz Can", "Home Brew Mart Inc", "Beer", 618.86});
-    repository.addProduct(Product{"Ballast Point Bonito - 4/6 12.Oz Can", "Home Brew Mart Inc", "Beer", 174.54});
-    repository.addProduct(Product{"La Socarrada - 330Ml", "Tradewinds Specialty Imports Llc", "Beer", 434.93});
-    repository.addProduct(Product{"La Socarrada - 330Ml", "Tradewinds Specialty Imports Llc", "Beer", 334.83});
-    repository.addProduct(Product{"La Socarrada - 330Ml", "Tradewinds Specialty Imports Llc", "Beer", 629.67});
-    repository.addProduct(Product{"Mikkeller Mexas Ranger - 11.2Oz", "Bond Distributing Co", "Beer", 833.42});
-    repository.addProduct(Product{"Evolution Russian Imperial Stout - 750Ml", "Delmar Brewing Company Llc", "Beer", 416.98});
-    repository.addProduct(Product{"Evolution Russian Imperial Stout - 750Ml", "Delmar Brewing Company Llc", "Beer", 645.15});
-    repository.addProduct(Product{"Blvd The Calling Ipa 4/6 Nr-12Oz", "Duvel Moortgat Usa Ltd", "Beer", 312.50});
-    repository.addProduct(Product{"Stone Jindia Pale Ale - 12.Oz 4/6 Nr", "Buck Distributing Company Inc", "Beer", 272.98});
-    repository.addProduct(Product{"Nb French Oak Saison - 22.Oz Nr", "New Belgium Brewing Inc", "Beer", 648.70});
-    repository.addProduct(Product{"Bitburger 1/2K", "Legends Ltd", "Kegs", 704.47});
-    repository.addProduct(Product{"Left Hand Nitro Milk Stout - 1/6K", "Legends Ltd", "Kegs", 641.71});
-    repository.addProduct(Product{"Lagunitas Pils 1/2K", "Legends Ltd", "Kegs", 682.20});
-    repository.addProduct(Product{"Sutter Home Fre' Premium Red - 750Ml", "Republic National Distributing Co", "Non-Alcohol", 566.62});
-    repository.addProduct(Product{"Sutter Home Fre' Wh Zin - 750Ml", "Republic National Distributing Co", "Non-Alcohol", 619.76});
-    repository.addProduct(Product{"Sutter Home Fre' Wh Zin - 750Ml", "Republic National Distributing Co", "Non-Alcohol", 993.23});
-    repository.addProduct(Product{"Flying Dog The Truth - 1/6K", "Flying Dog Brewery Lllp", "Kegs", 339.98});
-    repository.addProduct(Product{"Evolution Jacques Au Lantern1/2K", "Delmar Brewing Company Llc", "Kegs", 164.21});
-    repository.addProduct(Product{"Konig Ludwig Weissbier - 50L Keg", "Warsteiner Importers", "Kegs", 49.37});
-    repository.addProduct(Product{"Boulevard Collaboration #7 1/6 Keg", "Duvel Moortgat Usa Ltd", "Kegs", 319.55});
-    repository.addProduct(Product{"Blvd Tank 7 1/2K", "Duvel Moortgat Usa Ltd", "Kegs", 753.96});
-    repository.addProduct(Product{"Free Will Kragel Ipa 1/2 Keg", "Backup Beverage", "Kegs", 685.22});
-    repository.addProduct(Product{"Two Brothers Blood Pinball 1/2 Keg", "Backup Beverage", "Kegs", 454.75});
-    repository.addProduct(Product{"Epic Sour Pineapple 1/4 Keg", "Backup Beverage", "Kegs", 637.47});
-    repository.addProduct(Product{"Flying Dog Barrel Aged Gonzo 1/6K", "Flying Dog Brewery Lllp", "Kegs", 376.77});
-    repository.addProduct(Product{"Avery Ipa 1/6 Keg", "Backup Beverage", "Kegs", 891.18});
-    repository.addProduct(Product{"Atlas Ponzi 1/2 Keg", "Atlas Brew Works Llc", "Kegs", 505.72});
-    repository.addProduct(Product{"Smirnoff Bloody Mary Mix - 32Oz", "Diageo North America Inc", "Non-Alcohol", 895.86});
-    repository.addProduct(Product{"Smirnoff Bloody Mary Mix - 32Oz", "Diageo North America Inc", "Non-Alcohol", 116.65});
-    repository.addProduct(Product{"Smirnoff Bloody Mary Mix - 32Oz", "Diageo North America Inc", "Non-Alcohol", 695.20});
-    repository.addProduct(Product{"Wine Aerator-In Bottle", "Default", "Ref", 689.52});
-    repository.addProduct(Product{"Wine Aerator-In Bottle", "Default", "Ref", 65.21});
-    repository.addProduct(Product{"Wine Aerator-In Bottle", "Default", "Ref", 338.86});
-    repository.addProduct(Product{"Yuengling Ipl 1/2 Keg", "Yuengling Brewery", "Kegs", 198.52});
-    repository.addProduct(Product{"Evolution Lucky 7 Porter 1/2K", "Delmar Brewing Company Llc", "Kegs", 499.58});
-    repository.addProduct(Product{"Stelzer Fatti Bio-Perle Pilsner - 30L", "Grapes & Barley Llc", "Kegs", 353.47});
-    repository.addProduct(Product{"Laughing Dog  Ipa 1/2K", "Kysela Pere Et Fils Ltd", "Kegs", 975.95});
-    repository.addProduct(Product{"Leinenkugel Grapefruit Shandy 1/2Kg", "Miller Brewing Company", "Kegs", 516.18});
-    repository.addProduct(Product{"Escutcheon 4Th & 1 Pilsner - 1/6Keg", "Kysela Pere Et Fils Ltd", "Kegs", 907.91});
-    repository.addProduct(Product{"Stiegl 50Ltr 1/2 Keg", "Buck Distributing Company Inc", "Kegs", 952.80});
-    repository.addProduct(Product{"Elysian Bifrost 1/2Keg", "Anheuser Busch Inc", "Kegs", 668.33});
-    repository.addProduct(Product{"Store Special Beer Quart", "Default", "Ref", 370.40});
-    repository.addProduct(Product{"Store Special Beer Quart", "Default", "Ref", 453.27});
-    repository.addProduct(Product{"Two Bottle Wine Tote", "Default", "Supplies", 67.95});
-    repository.addProduct(Product{"Finest Call Bloody Mary Mix Spicey - 1L", "Republic National Distributing Co", "Non-Alcohol", 124.87});
-    repository.addProduct(Product{"Finest Call Bloody Mary Mix Spicey - 1L", "Republic National Distributing Co", "Non-Alcohol", 456.48});
-    repository.addProduct(Product{"Finest Call Bloody Mary Mix Spicey - 1L", "Republic National Distributing Co", "Non-Alcohol", 84.77});
-    repository.addProduct(Product{"Master Of Mixes S/Aple Mart - 1L", "American Beverage Marketers", "Non-Alcohol", 502.21});
-    repository.addProduct(Product{"Master Of Mixes S/Aple Mart - 1L", "American Beverage Marketers", "Non-Alcohol", 294.73});
-    repository.addProduct(Product{"Gator Rons Divine Bl/Mary - 24Oz", "Gator Ron'S Llc", "Non-Alcohol", 377.65});
-    repository.addProduct(Product{"Wine Gift Tote 4 Bottle", "Default", "Supplies", 497.73});
     repository.addProduct(Product{"Wine Gift Tote 4 Bottle", "Default", "Supplies", 843.67});
+    repository.addProduct(Product{"Founding Spirits Amer Whiskey - 750Ml", "Prestige Beverage Group Of Md Llc", "Liquor", 336.51});
+    repository.addProduct(Product{"Sutter Home Fre' Chard - 750Ml", "Republic National Distributing Co", "Non-Alcohol", 873.87});
+    repository.addProduct(Product{"Pierre Ferrand 1840 Cognac - 750Ml", "Bacchus Importers Ltd", "Liquor", 638.74});
+    repository.addProduct(Product{"Finest Call Grenadine - 1L", "Republic National Distributing Co", "Non-Alcohol", 799.60});
+    repository.addProduct(Product{"Westland American Single Malt - 750Ml", "Remy Cointreau Usa", "Liquor", 763.71});
+    repository.addProduct(Product{"Vincenzi Amaretto Di Torino - 1L", "Lanterna Distributors Inc", "Liquor", 354.70});
+    repository.addProduct(Product{"Aufsesser Pils - 500Ml", "Kysela Pere Et Fils Ltd", "Beer", 494.43});
+    repository.addProduct(Product{"Sweetwater Hash  15 Pk Can- 12.Oz Can", "Sweetwater Brewing Company Llc", "Beer", 212.18});
+    repository.addProduct(Product{"St Tangerine Express - 22.Oz", "Buck Distributing Company Inc", "Beer", 99.94});
+    repository.addProduct(Product{"Rogue Mocha Porter 4/6 Nr - 12Oz", "Katcef Brothers Inc", "Beer", 520.38});
+    repository.addProduct(Product{"Echigo Red Ale Nr 12/Cs - 335Ml", "Young Won Trading Inc", "Beer", 871.31});
+    repository.addProduct(Product{"Brewers Alley 1634 Ale 4/6 Nr - 12Oz", "Monocacy Brewing Co Llc", "Beer", 612.93});
+    repository.addProduct(Product{"National Premium 4/6 Nr - 12Oz", "Frederick P Winner Ltd", "Beer", 82.37});
+    repository.addProduct(Product{"Ipa Oze No Yukidoke Beer Nr 24/Cs - 11Oz", "Young Won Trading Inc", "Beer", 85.16});
+    repository.addProduct(Product{"Wray & Nephew Rum White 126P - 200Ml", "Campari America Llc", "Liquor", 611.37});
+    repository.addProduct(Product{"Sutter Home Fre Mer - 750Ml", "Republic National Distributing Co", "Non-Alcohol", 241.71});
+    repository.addProduct(Product{"Sutter Home Fre' Spark - 750Ml", "Republic National Distributing Co", "Non-Alcohol", 237.47});
+    repository.addProduct(Product{"Masion Rouge Cognac Vsop - 750Ml", "Prestige Beverage Group Of Md Llc", "Liquor", 986.69});
+    repository.addProduct(Product{"Exotico Blanco Teq - 1L", "Luxco Spirited Brands", "Liquor", 622.67});
+    repository.addProduct(Product{"Sobieski Vodka - 1L", "Reliable Churchill Lllp", "Liquor", 143.64});
+    repository.addProduct(Product{"Leroux Brandy - Cherry - 750Ml", "Jim Beam Brands Co", "Liquor", 201.92});
+    repository.addProduct(Product{"Austin Cider Variety Pack - 2/12 12.Oz Can", "Legends Ltd", "Beer", 903.95});
+    repository.addProduct(Product{"Nauti Seltzer Grapefruit - 12.Oz 4/6 Can", "Legends Ltd", "Beer", 182.42});
+    repository.addProduct(Product{"Nauti Seltzer Raspberry - 12.Oz 4/6 Can", "Legends Ltd", "Beer", 497.28});
+    repository.addProduct(Product{"Chum-Churum Soonhari Peach Soju - 375Ml", "Young Won Trading Inc", "Liquor", 960.95});
+    repository.addProduct(Product{"Old Mexico Blanco Tequila - 1L", "Southern Glazers Wine And Spirits", "Liquor", 374.76});
+    repository.addProduct(Product{"Wray & Nephew Rum White 126P - 200Ml", "Campari America Llc", "Liquor", 340.79});
+    repository.addProduct(Product{"Joseph Cartron Triple Sec - 750Ml", "Craft Wine & Spirits Of Maryland Llc", "Liquor", 51.51});
+    repository.addProduct(Product{"Fuzzy Vodka - 1L", "Southern Glazers Wine And Spirits", "Liquor", 817.34});
+    repository.addProduct(Product{"Prairie Organic Vodka - 1L", "Reliable Churchill Lllp", "Liquor", 689.55});
+    repository.addProduct(Product{"Monks Cafe Sour Ale 6/4 Nr - 11.2Oz", "Washburn Wine Co", "Beer", 934.46});
+    repository.addProduct(Product{"Cass Nr - 22Oz", "Young Won Trading Inc", "Beer", 135.87});
+    repository.addProduct(Product{"Victory Vital Ipa 4/6 Cans", "Katcef Brothers Inc", "Beer", 416.10});
+    repository.addProduct(Product{"Ginga Kogen - 300Ml", "Young Won Trading Inc", "Beer", 787.86});
+    repository.addProduct(Product{"Stary Melnik Myagkoe - 500Ml", "Interbalt Products Corp", "Beer", 560.51});
+    repository.addProduct(Product{"Nisko Luger - 500Ml", "Interbalt Products Corp", "Beer", 813.67});
+    repository.addProduct(Product{"Stary Melnik Light - 500Ml", "Interbalt Products Corp", "Beer", 738.85});
+    repository.addProduct(Product{"Empty 1/2 Keg (30.00)", "Anheuser Busch Inc", "Dunnage", 776.98});
+    repository.addProduct(Product{"Empty 1/6 Keg (30.00)", "Anheuser Busch Inc", "Dunnage", 745.38});
+    repository.addProduct(Product{"Empty 1/4 Keg (30.00)", "Anheuser Busch Inc", "Dunnage", 405.80});
+    repository.addProduct(Product{"Can Xa Brut Cava - 750Ml", "Pwswn Inc", "Wine", 728.89});
+    repository.addProduct(Product{"Bex Ries - 750Ml", "Bacchus Importers Ltd", "Wine", 848.34});
+    repository.addProduct(Product{"Store Special Wine 355 Ml - 355Ml", "Default", "Ref", 234.80});
+    repository.addProduct(Product{"Store Special Wine 355 Ml - 355Ml", "Default", "Ref", 246.21});
+    repository.addProduct(Product{"Store Special Wine 10 Liter - 10L", "Default", "Ref", 650.50});
+    repository.addProduct(Product{"Cutty Sark Scotch - 1L", "The Edrington Group Usa Llc", "Liquor", 311.58});
+    repository.addProduct(Product{"Glenfiddich 18Yr Sm Scotch - 750Ml", "William Grant And Sons Inc", "Liquor", 710.57});
+    repository.addProduct(Product{"Stoli Crushed Ruby Red Grapefruit Vodka - 750Ml", "Stoli Group (Usa) Llc", "Liquor", 465.70});
+    repository.addProduct(Product{"Bacardi Rum '8' W/ Glass & Ice Mold - 750Ml", "Bacardi Usa Inc", "Liquor", 30.27});
+    repository.addProduct(Product{"Speyburn Braden Orach - 750Ml", "Reliable Churchill Lllp", "Liquor", 926.39});
+    repository.addProduct(Product{"Capel Pisco Res - 750Ml", "Lapham Sales & Marketing Dba Lapham", "Liquor", 488.49});
+    repository.addProduct(Product{"Master Of Mixes Cosmo - 1L", "American Beverage Marketers", "Non-Alcohol", 910.16});
+    repository.addProduct(Product{"Master Of Mixes Cosmo - 1L", "American Beverage Marketers", "Non-Alcohol", 371.39});
+    repository.addProduct(Product{"Store Special Wine 355 Ml - 355Ml", "Default", "Ref", 620.40});
+    repository.addProduct(Product{"Master Of Mixes Mojito - 1L", "American Beverage Marketers", "Non-Alcohol", 708.42});
+    repository.addProduct(Product{"Master Of Mixes Cosmo - 1L", "American Beverage Marketers", "Non-Alcohol", 788.39});
+    repository.addProduct(Product{"Kona Koko Brown 4/6Nr - 12Oz", "Anheuser Busch Inc", "Beer", 309.82});
+    repository.addProduct(Product{"Redhook Blackhook 4/6 Nr", "Anheuser Busch Inc", "Beer", 206.77});
+    repository.addProduct(Product{"Shock Top Winter Sampler 12Pk Nr", "Anheuser Busch Inc", "Beer", 684.42});
+    repository.addProduct(Product{"Duclaw Devils Milk 4/6Nr - 12Oz", "Duclaw Brewery Llc", "Beer", 56.70});
+    repository.addProduct(Product{"Tbc Jack O Traveler Nr", "Boston Beer Corporation", "Beer", 597.78});
+    repository.addProduct(Product{"Finest Call Strawberry Puree - 1L", "American Beverage Marketers", "Non-Alcohol", 738.95});
+    repository.addProduct(Product{"Master Of Mixes Lime Juice - 375Ml", "American Beverage Marketers", "Non-Alcohol", 301.83});
+    repository.addProduct(Product{"Angostura Bitters - 200Ml", "Reliable Churchill Lllp", "Non-Alcohol", 355.41});
+    repository.addProduct(Product{"Georges Bloody Mary Spicey - 32Oz", "Reliable Churchill Lllp", "Non-Alcohol", 217.76});
+    repository.addProduct(Product{"Finest Call Pina Colada - 1L", "American Beverage Marketers", "Non-Alcohol", 59.19});
+    repository.addProduct(Product{"Master Of Mixes Str/Daq/Mar - 1.75L", "American Beverage Marketers", "Non-Alcohol", 133.99});
+    repository.addProduct(Product{"Angostura Bitters - 200Ml", "Reliable Churchill Lllp", "Non-Alcohol", 612.70});
+    repository.addProduct(Product{"Binyamina Res Zin - 750Ml", "Royal Wine Corp", "Wine", 887.98});
+    repository.addProduct(Product{"Olmeca Altos Teq - Reposado - 750Ml", "Pernod Ricard Usa Llc", "Liquor", 658.99});
+    repository.addProduct(Product{"Jose Cuervo Golden Margarita - 1.75L", "Proximo Spirits Inc", "Liquor", 820.12});
+    repository.addProduct(Product{"Flor De Cana Rum - Centenario - 750Ml", "William Grant And Sons Inc", "Liquor", 175.47});
+    repository.addProduct(Product{"Love P/Noir - 750Ml", "The Wine Group", "Wine", 708.70});
+    repository.addProduct(Product{"Chloe Prosecco - 750Ml", "The Wine Group", "Wine", 267.63});
+    repository.addProduct(Product{"Ava Grace Chard - 750Ml", "The Wine Group", "Wine", 892.16});
+    repository.addProduct(Product{"Brouilly Ch Des Tours - 375Ml", "Baron Francois Ltd", "Wine", 425.46});
+    repository.addProduct(Product{"Vampire P/Noir - 750Ml", "Ti Beverage Group Ltd", "Wine", 144.80});
+    repository.addProduct(Product{"Fess Parker Sb County P/Noir - 750Ml", "Dops Inc", "Wine", 579.42});
+    repository.addProduct(Product{"Adega Da Cartuxa Red - 750Ml", "Dmv Distributing Llc", "Wine", 830.20});
+    repository.addProduct(Product{"Montmayou Res Mal 750Ml", "Constantine Wines Inc", "Wine", 815.94});
+    repository.addProduct(Product{"Rebuli Prosecco Rse - 750Ml", "Kysela Pere Et Fils Ltd", "Wine", 198.40});
+    repository.addProduct(Product{"Rogue Fresh Roast - 22.0Z", "Katcef Brothers Inc", "Beer", 938.60});
+    repository.addProduct(Product{"Ommegang World Beer Cup - 3/3 25.4Oz", "Legends Ltd", "Beer", 215.11});
+    repository.addProduct(Product{"Rogue Brutal Bitter Nr - 12/22Oz", "Katcef Brothers Inc", "Beer", 981.37});
+    repository.addProduct(Product{"Corsendonk Christmas Tin", "Legends Ltd", "Beer", 432.41});
+    repository.addProduct(Product{"Bags - Plastic 20Lb", "Default", "Supplies", 854.47});
+    repository.addProduct(Product{"Smirnoff Bloody Mary Mix - 32Oz", "Diageo North America Inc", "Non-Alcohol", 348.95});
 }
+
+//baza de date

@@ -204,6 +204,7 @@ void testFilterProduct() {
 
     assert(pos[0] == 0); assert(pos[1] == 1); assert(pos[2] == 3);
 }
+#include <iostream>
 
 void testSortProduct(){
 
@@ -273,7 +274,26 @@ void testSortProduct(){
     assert(lista[3].getType() == "tip1");
     assert(lista[4].getType() == "tip1");
 
-    assert(service.getAllProducts().size() == 5);
+    assert(service.add("a1", "prod1", "tip2", 1) == true);
+
+    assert(service.add("e6", "prod1", "tip2", 1) == true);
+
+    assert(service.add("d2", "prod1", "tip2", 1) == true);
+
+    service.sortName(true, false);
+
+    service.sortNamePart2(true);
+
+    assert(lista[0].getType() == "tip1"); assert(lista[0].getName() == "a1");
+    assert(lista[1].getType() == "tip1"); assert(lista[1].getName() == "c3");
+    assert(lista[2].getType() == "tip1"); assert(lista[2].getName() == "e5");
+    assert(lista[3].getType() == "tip2"); assert(lista[3].getName() == "a1");
+    assert(lista[4].getType() == "tip2"); assert(lista[4].getName() == "b2");
+    assert(lista[5].getType() == "tip2"); assert(lista[5].getName() == "d2");
+    assert(lista[6].getType() == "tip2"); assert(lista[6].getName() == "d4");
+    assert(lista[7].getType() == "tip2"); assert(lista[7].getName() == "e6");
+
+    assert(service.getAllProducts().size() == 8);
 }
 
 void testAll() {
