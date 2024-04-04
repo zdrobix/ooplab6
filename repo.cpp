@@ -1,35 +1,59 @@
 #include "repo.h"
 #include <vector>
+#include <cstdlib>
 
 using namespace std;
 
-vector<Product>& Repo::getAll() {
+Product* Repo::getAll() const {
 
-    return lista;
+    return list;
 }
 
-int Repo::numberProducts() {
+int Repo::numberProducts() const {
 
-    return int(lista.size());
+    return lg;
+}
+
+void Repo::redim() {
+
+    //auto* newL = new Product[2* cp];
+
+    for ( int i = 0; i < lg ; i ++ )
+
+        //newL[i] = list[i];
+        int ok = 1;
+
+
 }
 
 void Repo::addProduct(const Product& participant) {
 
-    lista.push_back(participant);
+    if (lg >= cp )
+
+        redim();
+
+    list[lg++] = participant;
 }
 
 void Repo::updateProduct(int position, const string &nName, const string &pProducer, const string &tType, float pPrice) {
 
-    lista.at(position).setName(const_cast<string &>(nName));
+    list[position].setName(const_cast<string &>(nName));
 
-    lista.at(position).setProducer(const_cast<string &>(pProducer));
+    list[position].setProducer(const_cast<string &>(pProducer));
 
-    lista.at(position).setType(const_cast<string &>(tType));
+    list[position].setType(const_cast<string &>(tType));
 
-    lista.at(position).setPrice(pPrice);
+    list[position].setPrice(pPrice);
 }
 
 void Repo::deleteProduct(int position) {
 
-    lista.erase(lista.begin() + position);
+    if (position < 0 || position >= lg ) return;
+
+    for ( int i = position; i < lg; i ++ )
+
+        list[i] = list[i + 1];
+
+    lg --;
 }
+

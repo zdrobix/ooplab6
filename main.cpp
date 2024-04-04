@@ -9,7 +9,9 @@ int main() {
 
     testAll();
 
-    Repo repository;
+    cout << "Contor: " << Product::contor << endl;
+
+    Repo repository{};
 
     Controller controller{repository};
 

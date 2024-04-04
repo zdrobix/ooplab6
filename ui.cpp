@@ -26,9 +26,9 @@ string Ui::readOption() {
 
 void Ui::uiProducts() {
 
-    const vector<Product>& lista = service.getAllProducts();
+    const Product* lista = service.getAllProducts();
 
-    if (lista.empty()) {
+    if (service.numberProducts() == 0 ) {
 
         cout << endl << "No products added!";
 
@@ -37,13 +37,14 @@ void Ui::uiProducts() {
 
     int i = 1; cout << endl;
 
-    for (const auto& prt: lista)
-
+    for (int i = 0; i < service.numberProducts(); i ++ ) {
+        Product prt = lista[i];
         cout << ((i <= 9) ? " " + to_string(i++) : to_string(i++)) << ") "
              << setw(50) << left << prt.getName() << left
              << setw(40) << prt.getProducer() << left
              << setw(15) << prt.getType() << left
              << setw(8) << prt.getPrice() << endl;
+    }
 }
 
 void Ui::uiAdd () {
@@ -196,13 +197,13 @@ void Ui::uiFilter () {
         return;
     }
 
-    const vector<Product>& lista = service.getAllProducts();
+    const Product* lista = service.getAllProducts();
 
     cout << endl;
 
     for ( int i = 0; i < counter; i ++ ) {
 
-        Product prt = lista.at(pos[i]);
+        Product prt = lista[pos[i]];
 
         cout << ((i + 1<= 9) ? " " + to_string(i + 1) : to_string(i + 1)) << ") "
              << setw(50) << left << prt.getName() << left
@@ -283,7 +284,6 @@ void Ui::uiSort () {
 
         return;
     }
-
 }
 
 void Ui::runApp () {

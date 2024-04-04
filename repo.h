@@ -3,10 +3,22 @@
 #include "domain.h"
 #include <vector>
 
+typedef Product ElemType;
+
 class Repo {
 
 public:
     Repo() = default;
+
+    /*
+     * Distrugerea listei
+     */
+    ~Repo() = default;
+
+    /*
+     * Redimensionarea listei in cazul in care capacitatea maxima este atinsa.
+     */
+    void redim();
 
     /*
     * Primeste ca parametru obiectul Product, si il adauga in memorie.
@@ -36,18 +48,21 @@ public:
      * Returneaza toate produsele adaugate.
      * @return: vector
      */
-    vector<Product>& getAll();
+    Product* getAll() const;
 
     /*
      * Returneaza cate produse au fost adaugate(numarul)
      * @return: numarul de produse
      */
-    int numberProducts();
+    int numberProducts() const;
 
 
 private:
-    vector<Product> lista;
+    ElemType* list;
 
+    int lg;
+
+    int cp;
 };
 
 #endif //REPO_H

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const vector<Product> & Controller::getAllProducts() {
+const Product* Controller::getAllProducts() {
 
     return repository.getAll();
 }
@@ -55,11 +55,11 @@ bool Controller::_delete(int position) {
 
 int Controller::filterPrice(int counter, int pos[100], float price, bool direction) {
 
-    vector<Product>& lista = repository.getAll();
+    Product* lista = repository.getAll();
 
-    int i = 0;
+    for (int i = 0; i < numberProducts(); i ++ ) {
 
-    for (const auto& prt: lista) {
+        Product prt = lista[i];
 
         if (direction) {
 
@@ -75,18 +75,17 @@ int Controller::filterPrice(int counter, int pos[100], float price, bool directi
 
             counter ++;
         }
-        i ++;
     }
     return counter;
 }
 
 int Controller::filterName(int counter, int pos[100], char letter, bool nameProd) {
 
-    vector<Product>& lista = repository.getAll();
+    Product* lista = repository.getAll();
 
-    int i = 0;
+    for (int i = 0; i < numberProducts(); i ++ ) {
 
-    for (const auto& prt: lista) {
+        Product prt = lista[i];
 
         if (nameProd) {
 
@@ -102,14 +101,31 @@ int Controller::filterName(int counter, int pos[100], char letter, bool nameProd
 
             counter ++;
         }
-        i ++;
     }
     return counter;
 }
 
+void Controller::sort(Product* list, int begin, int end, bool(*cmp)(const Product& a, const Product& b)) {
+
+    for (int i = begin; i < end; i ++ )
+
+        for ( int j = i + 1; j <= end; j ++ )
+
+            if (cmp(list[i], list[j]))
+            {
+                Product aux;
+
+                aux = list[i];
+
+                list[i] = list[j];
+
+                list[j] = aux;
+            }
+}
+
 void Controller::sortPrice(bool direction) {
 
-    vector<Product>& list=repository.getAll();
+    Product* list = repository.getAll();
 
     auto comparePriceAsc = [](const Product& a, const Product& b) {
         return a.getPrice() < b.getPrice();
@@ -119,14 +135,14 @@ void Controller::sortPrice(bool direction) {
         return a.getPrice() > b.getPrice();
     };
 
-    auto compare = direction ? comparePriceAsc : comparePriceDesc;
+    auto compareFunction = direction ? comparePriceAsc : comparePriceDesc;
 
-    sort(list.begin(), list.end(), compare);
+    sort(list, 0, numberProducts() , compareFunction);
 }
 
 void Controller::sortName(bool direction, bool nameType) {
 
-    vector<Product>& list = repository.getAll();
+    Product* list = repository.getAll();
 
     auto compareNameAsc = [](const Product& a, const Product& b) {
         return a.getName() < b.getName();
@@ -150,14 +166,14 @@ void Controller::sortName(bool direction, bool nameType) {
 
     if (direction)
 
-        sort(list.begin(), list.end(), compareFunctionAsc);
+        sort(list, 0, numberProducts(), compareFunctionAsc);
 
-    else sort(list.begin(), list.end(), compareFunctionDesc);
+    else sort(list, 0, numberProducts(), compareFunctionDesc);
 }
 
 void Controller::sortNamePart2(bool direction) {
 
-    vector<Product>& list = repository.getAll();
+    Product* list = repository.getAll();
 
     auto compareNameAsc = [](const Product& a, const Product& b) {
         return a.getName() < b.getName();
@@ -169,24 +185,24 @@ void Controller::sortNamePart2(bool direction) {
 
     auto compareFunction = direction ? compareNameAsc : compareNameDesc;
 
-    string curent_type = list.at(0).getType();
+    string curent_type = list[0].getType();
 
     int start_index = 0;
 
     for ( int i = 0; i < numberProducts(); i ++ ) {
 
-        if (list.at(i).getType() != curent_type) {
+        if (list[i].getType() != curent_type) {
 
-            curent_type = list.at(i).getType();
+            curent_type = list[i].getType();
 
             if ( i - start_index > 1)
 
-                sort(list.begin() + start_index, list.begin() + i , compareFunction);
+                sort(list, start_index, i , compareFunction);
 
             start_index = i;
         }
     }
-    sort(list.begin() + start_index, list.begin() + numberProducts()  , compareFunction);
+    sort(list, start_index, numberProducts(), compareFunction);
 }
 
 void Controller::addStandard() {
@@ -290,6 +306,7 @@ void Controller::addStandard() {
     repository.addProduct(Product{"Corsendonk Christmas Tin", "Legends Ltd", "Beer", 432.41});
     repository.addProduct(Product{"Bags - Plastic 20Lb", "Default", "Supplies", 854.47});
     repository.addProduct(Product{"Smirnoff Bloody Mary Mix - 32Oz", "Diageo North America Inc", "Non-Alcohol", 348.95});
+
 }
 
 //baza de date

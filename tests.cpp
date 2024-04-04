@@ -11,16 +11,16 @@ void testCreateProduct () {
 
     Product p1 {"name name", "prod", "type type", 100};
 
-    assert(p1.name == "name name");
+    //assert(p1.name == "name name");
     assert(p1.getName() == "name name");
 
-    assert(p1.producer == "prod");
+    //assert(p1.producer == "prod");
     assert(p1.getProducer() == "prod");
 
-    assert(p1.type == "type type");
+    //assert(p1.type == "type type");
     assert(p1.getType() == "type type");
 
-    assert(p1.price == 100);
+    //assert(p1.price == 100);
     assert(p1.getPrice() == 100);
 
     string name = "AA", producer = "BB", type = "CC";
@@ -30,22 +30,22 @@ void testCreateProduct () {
     p1.setType(type);
     p1.setPrice(22);
 
-    assert(p1.name == "AA");
+    //assert(p1.name == "AA");
     assert(p1.getName() == "AA");
 
-    assert(p1.producer == "BB");
+    //assert(p1.producer == "BB");
     assert(p1.getProducer() == "BB");
 
-    assert(p1.type == "CC");
+    //assert(p1.type == "CC");
     assert(p1.getType() == "CC");
 
-    assert(p1.price == 22);
+    //assert(p1.price == 22);
     assert(p1.getPrice() == 22);
 }
 
 void testAddProduct() {
 
-    Repo repo;
+    Repo repo{};
 
     Controller service{repo};
 
@@ -70,7 +70,7 @@ void testAddProduct() {
 
 void testUpdateProduct() {
 
-    Repo repo;
+    Repo repo{};
 
     Controller service{repo};
 
@@ -94,26 +94,26 @@ void testUpdateProduct() {
 
     assert(service.update(0,"MILK", "NAPOLACT", "DAIRY", 9999.99) == true);
 
-    vector<Product>& lista = repo.getAll();
+    ElemType* list = repo.getAll();
 
-    Product p1 = lista[0];
+    Product p1 = list[0];
 
-    assert(p1.name == "MILK");
+    //assert(p1.name == "MILK");
     assert(p1.getName() == "MILK");
 
-    assert(p1.producer == "NAPOLACT");
+    //assert(p1.producer == "NAPOLACT");
     assert(p1.getProducer() == "NAPOLACT");
 
-    assert(p1.type == "DAIRY");
+    //assert(p1.type == "DAIRY");
     assert(p1.getType() == "DAIRY");
 
-    assert(p1.price - 9999.99 < 0.01);
+    //assert(p1.price - 9999.99 < 0.01);
     assert(p1.getPrice() - 9999.99 < 0.01);
 }
 
 void testDeleteProduct() {
 
-    Repo repo;
+    Repo repo{};
 
     Controller service{repo};
 
@@ -162,7 +162,7 @@ void testDeleteProduct() {
 
 void testFilterProduct() {
 
-    Repo repo;
+    Repo repo{};
 
     Controller service{repo};
 
@@ -204,11 +204,10 @@ void testFilterProduct() {
 
     assert(pos[0] == 0); assert(pos[1] == 1); assert(pos[2] == 3);
 }
-#include <iostream>
 
 void testSortProduct(){
 
-    Repo repo;
+    Repo repo{};
 
     Controller service{repo};
 
@@ -226,7 +225,7 @@ void testSortProduct(){
 
     service.sortPrice(true);
 
-    vector<Product>& lista = repo.getAll();
+    ElemType* lista = repo.getAll();
 
     assert(lista[0].getPrice() == 1);
     assert(lista[1].getPrice() == 2);
@@ -293,7 +292,8 @@ void testSortProduct(){
     assert(lista[6].getType() == "tip2"); assert(lista[6].getName() == "d4");
     assert(lista[7].getType() == "tip2"); assert(lista[7].getName() == "e6");
 
-    assert(service.getAllProducts().size() == 8);
+    service.sortNamePart2(false);
+
 }
 
 void testAll() {

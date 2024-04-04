@@ -1,12 +1,13 @@
 #ifndef DOMAIN_H
 #define DOMAIN_H
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 class Product {
 
-public:
+private:
     string name;
 
     string producer;
@@ -14,6 +15,46 @@ public:
     string type;
 
     float price;
+public:
+
+    static int contor;
+
+    Product(const string& name, const string& producer, const string& type, const float price){
+
+        this-> name = name;
+        this-> producer = producer;
+        this-> type = type;
+        this-> price = price;
+        contor ++;
+    };
+
+    Product(){
+
+        this-> name = "";
+        this-> producer = "";
+        this-> type = "";
+        this-> price = 0;
+    };
+
+    ~Product() {
+
+        this-> name = " ";
+        this-> producer = " ";
+        this-> type = " ";
+        this-> price = 0;
+        contor --;
+    };
+
+    Product(const Product& ot) {
+
+        name = ot.name;
+        producer = ot.producer;
+        type = ot.type;
+        price = ot.price;
+        //contor ++;
+    };
+
+
 
     string getName() const;
 

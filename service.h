@@ -98,7 +98,7 @@ public:
      * Returneaza toate produsele adaugate.
      * @return: vector
      */
-    const vector<Product> & getAllProducts();
+    const Product* getAllProducts();
 
     /*
      * Returneaza cate produse au fost adaugate(numarul)
@@ -109,6 +109,7 @@ public:
 private:
     Repo& repository;
 
+    static void sort(Product *list, int begin, int end, bool (*cmp)(const Product &, const Product &));
 };
 
 #endif //SERVICE_H
