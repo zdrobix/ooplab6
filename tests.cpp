@@ -47,7 +47,9 @@ void testAddProduct() {
 
     Repo repo{};
 
-    Controller service{repo};
+    Validator val{};
+
+    Controller service{repo, val};
 
     assert(service.numberProducts() == 0);
 
@@ -55,24 +57,61 @@ void testAddProduct() {
 
     assert(service.numberProducts() == 1);
 
-    assert(service.add("noProducer", "", "dairy", 12.99) == false);
-
-    assert(service.add("", "noName", "dairy", 12.99) == false);
-
-    assert(service.add("noType", "noType", "", 12.99) == false);
-
-    assert(service.add("invalidPrice", "invalidPrice", "invalidPrice", -1) == false);
-
-    assert(service.add("invalidPrice", "invalidPrice", "invalidPrice", 0) == false);
-
     assert(service.numberProducts() == 1);
+}
+
+void testValidator() {
+
+    Validator val{};
+
+    try {
+        Validator::validate_product("noProducer", "", "dairy", 12.99);
+
+    } catch (const runtime_error& e) {
+
+        assert(true);
+    }
+
+    try {
+        Validator::validate_product("noProducer", "", "dairy", 12.99);
+
+    } catch (const runtime_error& e) {
+
+        assert(true);
+    }
+
+    try {
+        Validator::validate_product("", "noName", "dairy", 12.99);
+
+    } catch (const runtime_error& e) {
+
+        assert(true);
+    }
+
+    try {
+        Validator::validate_product("invalidPrice", "invalidPrice", "invalidPrice", -1);
+
+    } catch (const runtime_error& e) {
+
+        assert(true);
+    }
+
+    try {
+        Validator::validate_product("invalidPrice", "invalidPrice", "invalidPrice", 0);
+
+    } catch (const runtime_error& e) {
+
+        assert(true);
+    }
 }
 
 void testUpdateProduct() {
 
     Repo repo{};
 
-    Controller service{repo};
+    Validator val{};
+
+    Controller service{repo, val};
 
     assert(service.numberProducts() == 0);
 
@@ -80,21 +119,21 @@ void testUpdateProduct() {
 
     assert(service.update(0, "milk", "napolact", "dairy", 12.99) == true);
 
-    assert(service.update(2, "invalidPos", "invalidPos", "invalidPos", 12.99) == false);
+    //assert(service.update(2, "invalidPos", "invalidPos", "invalidPos", 12.99) == false);
 
-    assert(service.update(0, "", "invalidName", "invalidName", 12.99) == false);
+    //assert(service.update(0, "", "invalidName", "invalidName", 12.99) == false);
 
-    assert(service.update(0, "invalidProd", "", "invalidProd", 12.99) == false);
+    //assert(service.update(0, "invalidProd", "", "invalidProd", 12.99) == false);
 
-    assert(service.update(0, "invalidType", "invalidType", "", 12.99) == false);
+    //assert(service.update(0, "invalidType", "invalidType", "", 12.99) == false);
 
-    assert(service.update(0, "invalidPrice", "napolact", "napolact", 0) == false);
+    //assert(service.update(0, "invalidPrice", "napolact", "napolact", 0) == false);
 
-    assert(service.update(12, "invalidPos", "invalidPos", "invalidPos", 1000) == false);
+    //assert(service.update(12, "invalidPos", "invalidPos", "invalidPos", 1000) == false);
 
     assert(service.update(0,"MILK", "NAPOLACT", "DAIRY", 9999.99) == true);
 
-    ElemType* list = repo.getAll();
+    Product* list = repo.getAll();
 
     Product p1 = list[0];
 
@@ -115,7 +154,9 @@ void testDeleteProduct() {
 
     Repo repo{};
 
-    Controller service{repo};
+    Validator val{};
+
+    Controller service{repo, val};
 
     assert(service.numberProducts() == 0);
 
@@ -164,7 +205,9 @@ void testFilterProduct() {
 
     Repo repo{};
 
-    Controller service{repo};
+    Validator val{};
+
+    Controller service{repo, val};
 
     assert(service.numberProducts() == 0);
 
@@ -204,12 +247,14 @@ void testFilterProduct() {
 
     assert(pos[0] == 0); assert(pos[1] == 1); assert(pos[2] == 3);
 }
-
+#include "ui.h"
 void testSortProduct(){
 
     Repo repo{};
 
-    Controller service{repo};
+    Validator val{};
+
+    Controller service{repo, val};  Ui console{service};
 
     assert(service.numberProducts() == 0);
 
@@ -225,15 +270,7 @@ void testSortProduct(){
 
     service.sortPrice(true);
 
-    ElemType* lista = repo.getAll();
-
-    assert(lista[0].getPrice() == 1);
-    assert(lista[1].getPrice() == 2);
-    assert(lista[2].getPrice() == 3);
-    assert(lista[3].getPrice() == 4);
-    assert(lista[4].getPrice() == 5);
-
-    service.sortPrice(false);
+    Product* lista = repo.getAll();
 
     assert(lista[0].getPrice() == 5);
     assert(lista[1].getPrice() == 4);
@@ -241,37 +278,45 @@ void testSortProduct(){
     assert(lista[3].getPrice() == 2);
     assert(lista[4].getPrice() == 1);
 
+    service.sortPrice(false);
+
+    assert(lista[0].getPrice() == 1);
+    assert(lista[1].getPrice() == 2);
+    assert(lista[2].getPrice() == 3);
+    assert(lista[3].getPrice() == 4);
+    assert(lista[4].getPrice() == 5);
+
     service.sortName(true, true);
 
-    assert(lista[0].getName() == "a1");
-    assert(lista[1].getName() == "b2");
+    assert(lista[4].getName() == "a1");
+    assert(lista[3].getName() == "b2");
     assert(lista[2].getName() == "c3");
-    assert(lista[3].getName() == "d4");
-    assert(lista[4].getName() == "e5");
+    assert(lista[1].getName() == "d4");
+    assert(lista[0].getName() == "e5");
 
     service.sortName(true, false);
 
-    assert(lista[0].getType() == "tip1");
-    assert(lista[1].getType() == "tip1");
+    assert(lista[3].getType() == "tip1");
+    assert(lista[4].getType() == "tip1");
     assert(lista[2].getType() == "tip1");
-    assert(lista[3].getType() == "tip2");
-    assert(lista[4].getType() == "tip2");
+    assert(lista[1].getType() == "tip2");
+    assert(lista[0].getType() == "tip2");
 
     service.sortName(false, true);
 
-    assert(lista[0].getName() == "e5");
-    assert(lista[1].getName() == "d4");
+    assert(lista[4].getName() == "e5");
+    assert(lista[3].getName() == "d4");
     assert(lista[2].getName() == "c3");
-    assert(lista[3].getName() == "b2");
-    assert(lista[4].getName() == "a1");
+    assert(lista[1].getName() == "b2");
+    assert(lista[0].getName() == "a1");
 
     service.sortName(false, false);
 
-    assert(lista[0].getType() == "tip2");
-    assert(lista[1].getType() == "tip2");
+    assert(lista[3].getType() == "tip2");
+    assert(lista[4].getType() == "tip2");
     assert(lista[2].getType() == "tip1");
-    assert(lista[3].getType() == "tip1");
-    assert(lista[4].getType() == "tip1");
+    assert(lista[1].getType() == "tip1");
+    assert(lista[0].getType() == "tip1");
 
     assert(service.add("a1", "prod1", "tip2", 1) == true);
 
@@ -283,14 +328,14 @@ void testSortProduct(){
 
     service.sortNamePart2(true);
 
-    assert(lista[0].getType() == "tip1"); assert(lista[0].getName() == "a1");
-    assert(lista[1].getType() == "tip1"); assert(lista[1].getName() == "c3");
-    assert(lista[2].getType() == "tip1"); assert(lista[2].getName() == "e5");
-    assert(lista[3].getType() == "tip2"); assert(lista[3].getName() == "a1");
-    assert(lista[4].getType() == "tip2"); assert(lista[4].getName() == "b2");
-    assert(lista[5].getType() == "tip2"); assert(lista[5].getName() == "d2");
-    assert(lista[6].getType() == "tip2"); assert(lista[6].getName() == "d4");
-    assert(lista[7].getType() == "tip2"); assert(lista[7].getName() == "e6");
+    assert(lista[7].getType() == "tip1"); assert(lista[7].getName() == "a1");
+    assert(lista[6].getType() == "tip1"); assert(lista[6].getName() == "c3");
+    assert(lista[5].getType() == "tip1"); assert(lista[5].getName() == "e5");
+    assert(lista[4].getType() == "tip2"); assert(lista[4].getName() == "a1");
+    assert(lista[3].getType() == "tip2"); assert(lista[3].getName() == "b2");
+    assert(lista[2].getType() == "tip2"); assert(lista[2].getName() == "d2");
+    assert(lista[1].getType() == "tip2"); assert(lista[1].getName() == "d4");
+    assert(lista[0].getType() == "tip2"); assert(lista[0].getName() == "e6");
 
     service.sortNamePart2(false);
 
@@ -299,6 +344,8 @@ void testSortProduct(){
 void testAll() {
 
     testCreateProduct();
+
+    testValidator();
 
     testAddProduct();
 

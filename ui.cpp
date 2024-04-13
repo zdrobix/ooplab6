@@ -35,9 +35,9 @@ void Ui::uiProducts() {
         return;
     }
 
-    int i = 1; cout << endl;
+    cout << endl;
 
-    for (int i = 0; i < service.numberProducts(); i ++ ) {
+    for (int i = 0; i < service.numberProducts();) {
         Product prt = lista[i];
         cout << ((i <= 9) ? " " + to_string(i++) : to_string(i++)) << ") "
              << setw(50) << left << prt.getName() << left

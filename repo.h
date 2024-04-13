@@ -1,9 +1,7 @@
 #ifndef REPO_H
 #define REPO_H
 #include "domain.h"
-#include <vector>
-
-typedef Product ElemType;
+#include "vector.h"
 
 class Repo {
 
@@ -14,11 +12,6 @@ public:
      * Distrugerea listei
      */
     ~Repo() = default;
-
-    /*
-     * Redimensionarea listei in cazul in care capacitatea maxima este atinsa.
-     */
-    void redim();
 
     /*
     * Primeste ca parametru obiectul Product, si il adauga in memorie.
@@ -58,11 +51,7 @@ public:
 
 
 private:
-    ElemType* list;
-
-    int lg;
-
-    int cp;
+    DynamicArray<Product> list;
 };
 
 #endif //REPO_H

@@ -15,4 +15,5 @@ add_executable(oop_lab6
         domain.h
         tests.cpp
         tests.h
+        vector.h
 )

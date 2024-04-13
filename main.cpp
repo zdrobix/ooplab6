@@ -9,11 +9,11 @@ int main() {
 
     testAll();
 
-    cout << "Contor: " << Product::contor << endl;
-
     Repo repository{};
 
-    Controller controller{repository};
+    Validator val{};
+
+    Controller controller{repository, val};
 
     Ui console{controller};
 

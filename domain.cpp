@@ -43,5 +43,4 @@ void Product::setPrice (float pPrice) {
     this->price = pPrice;
 }
 
-int Product::contor = 0;
 

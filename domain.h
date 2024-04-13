@@ -17,15 +17,12 @@ private:
     float price;
 public:
 
-    static int contor;
-
     Product(const string& name, const string& producer, const string& type, const float price){
 
         this-> name = name;
         this-> producer = producer;
         this-> type = type;
         this-> price = price;
-        contor ++;
     };
 
     Product(){
@@ -42,7 +39,6 @@ public:
         this-> producer = " ";
         this-> type = " ";
         this-> price = 0;
-        contor --;
     };
 
     Product(const Product& ot) {
@@ -51,10 +47,7 @@ public:
         producer = ot.producer;
         type = ot.type;
         price = ot.price;
-        //contor ++;
     };
-
-
 
     string getName() const;
 

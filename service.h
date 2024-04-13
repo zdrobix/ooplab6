@@ -2,6 +2,7 @@
 #define SERVICE_H
 #include <string>
 #include "repo.h"
+#include "validator.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ public:
      * Constructor pentru clasa Controller.
      * Primeste ca parametru clasa un obiect din clasa Repo.
      */
-    explicit Controller(Repo& repository): repository{repository}{};
+    explicit Controller(Repo& repository, Validator& val): repository{repository}, val{val}{};
 
     /*
      * Daca exista alt Controller deschis, se sterge.
@@ -105,6 +106,8 @@ public:
      * @return: numarul de produse
      */
     int numberProducts();
+
+    Validator& val;
 
 private:
     Repo& repository;

@@ -18,9 +18,7 @@ int Controller::numberProducts() {
 
 bool Controller::add(const string& name, const string& producer, const string& type, float price) {
 
-    if (name.empty() or producer.empty() or type.empty()) return false;
-
-    if (price <= 0 ) return false;
+    Validator::validate_product(name, producer, type, price);
 
     Product prt{name, producer, type, price};
 
@@ -35,7 +33,7 @@ bool Controller::update(int position, const string& nName, const string& pProduc
 
     if (position > repository.numberProducts() or position < 0) return false;
 
-    if (nName.empty() or pProducer.empty() or pPrice <= 0 or tType.empty()) return false;
+    Validator::validate_product(nName, pProducer, tType, pPrice);
 
     repository.updateProduct(position, nName, pProducer, tType, pPrice);
 
@@ -109,7 +107,7 @@ void Controller::sort(Product* list, int begin, int end, bool(*cmp)(const Produc
 
     for (int i = begin; i < end; i ++ )
 
-        for ( int j = i + 1; j <= end; j ++ )
+        for ( int j = i + 1; j < end; j ++ )
 
             if (cmp(list[i], list[j]))
             {
